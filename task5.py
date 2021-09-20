@@ -7,7 +7,7 @@ def IntegrateN(function):
     print(sm.integrate(function, x))
 
 def function(x):
-    return sin(x)
+    return sin(x) / (x + 1)
 
 def Integrate(function):
     print(quad(function, 0, 1))
