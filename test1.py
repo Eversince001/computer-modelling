@@ -1,27 +1,27 @@
 import workwithFiles
 import math
 
-#проверка перестановок
+#Проверка перестановок (тест на случайность)
 def test1(x, n):
     q = 0
     alpha = 0.05
     u = 1.960
 
-    for i in range(n - 1):
+    for i in range(n - 1): #подсчет количества перестановок
         if x[i] > x[i + 1]:
             q += 1
 
-    leftBorder = q - (u * math.sqrt(n)) / 2
+    leftBorder = q - (u * math.sqrt(n)) / 2 #определение доверительного интервала
     rightBorder = q + (u * math.sqrt(n)) / 2
 
-    mo = n / 2
+    mo = n / 2 #математическое ожидание
 
     if leftBorder <= mo <= rightBorder:
         resultTest = "Test completed"
-        print("Результат теста №1: " + resultTest)
+        print("Result of test N1: " + resultTest)
     else:
         resultTest = "Test failed"
-        print("Результат теста №1: " + resultTest)
+        print("Result of test N1: " + resultTest)
 
     content = []
     content.append("Test N1\nn=" + str(n) + "\nalpha=0.05\nLevel quantile" + str(

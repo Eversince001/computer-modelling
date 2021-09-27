@@ -2,21 +2,22 @@ import test1
 import test2
 import workwithFiles
 
+#Проверка подпоследовательностей на случайность и равномерность
 def test3(x, n, m, r, k):
     t = round((n - 1) / r)
     pp = [0] * t
     flag = 0
 
-    for i in range(r):
+    for i in range(r): #генерация r последовательностей
         for j in range(t):
             pp[j] = x[j * r + i]
 
         print(pp)
-        if test1.test1(pp, len(pp)) == "Test failed" :
+        if test1.test1(pp, len(pp)) == "Test failed":
             flag = 1
             break
 
-        if test2.test2(pp, len(pp), m, k) == "Test failed" :
+        if test2.test2(pp, len(pp), m, k) == "Test failed":
             flag = 1
             break
 
