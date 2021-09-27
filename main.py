@@ -15,7 +15,7 @@ inputData = workwithFiles.readFile("file.txt")
 
 #tmp  = maxperiod.per(inputData[3])
 
-seq = generators.generateSeq(inputData[3], inputData[4], inputData[0], inputData[1], inputData[2])
+seq = generators.generateSeqPython(inputData[3], inputData[2])
 
 workwithFiles.writeToFileSeq("seqFile.txt", seq)
 
@@ -26,19 +26,19 @@ period = generators.getPeriod(reverseSeq)
 
 print(period)
 
-#test1.test1(reverseSeq, 40)
-#test1.test1(reverseSeq, 100)
+test1.test1(reverseSeq, 40)
+test1.test1(reverseSeq, 100)
 
-#test2.test2(reverseSeq, 40, inputData[2], inputData[5])
-#test2.test2(reverseSeq, 100, inputData[2], inputData[5])
+test2.test2(reverseSeq, 40, inputData[2], inputData[5])
+test2.test2(reverseSeq, 100, inputData[2], inputData[5])
 
 test3.test3(reverseSeq, 40, inputData[2], inputData[6], inputData[7])
 test3.test3(reverseSeq, 100, inputData[2], inputData[6], inputData[7])
 
-#X.X(reverseSeq, 40, inputData[5])
-#X.X(reverseSeq, 100, inputData[5])
-#X.X(reverseSeq, period, inputData[5])
+X.X(reverseSeq, 40, inputData[5])
+X.X(reverseSeq, 100, inputData[5])
+X.X(reverseSeq, period, inputData[5])
 
-#AndersonDarling.AndersonDarling(reverseSeq, 40, inputData[2])
-#AndersonDarling.AndersonDarling(reverseSeq, 100, inputData[2])
-#AndersonDarling.AndersonDarling(reverseSeq, period, inputData[2])
+AndersonDarling.AndersonDarling(reverseSeq, 40, inputData[2])
+AndersonDarling.AndersonDarling(reverseSeq, 100, inputData[2])
+AndersonDarling.AndersonDarling(reverseSeq, period, inputData[2])

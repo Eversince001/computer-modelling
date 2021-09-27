@@ -15,11 +15,11 @@ def test3(x, n, m, r, k):
         print(pp)
         if test1.test1(pp, len(pp)) == "Test failed":
             flag = 1
-            break
+         
 
         if test2.test2(pp, len(pp), m, k) == "Test failed":
             flag = 1
-            break
+            
 
     if flag == 0:
         resultTest = "Test completed"

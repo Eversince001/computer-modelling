@@ -7,13 +7,15 @@ def X(x,n,k):
     counter = 0
     content = []
     alpha = 0.05
-    intervals = [[0] * 2 for i in range(k)]
+    intervals = [[0] * 2 for i in range(k)] #выбираем интервалы
     p=[0]*k
     nin = [0]*k
     m = max(x[:n+1:]) - min(x[:n+1:])
     countInInterval = [0] * k
     
-    for i in range(k):
+    #для каждого i-го интервала подсчитываем количество попаданий элементов выборки в него (nin) 
+    #и вычисляем значения теоретических вероятностей попадания в i-й интервал (Pi(q)).
+    for i in range(k): 
         intervals[i][0] = counter
         intervals[i][1] = round(m/k + counter,2)
         counter =  intervals[i][1]
@@ -25,10 +27,13 @@ def X(x,n,k):
         p[i] = (intervals[i][1]-intervals[i][0])/m
         nin[i] = countInInterval[i]/n
     
+    #Вычисляем значения статистики sChi 
     sChi = 0
     for i in range(k):
         sChi += ((nin[i] - p[i])**2)/p[i]
     sChi *= n
+
+    #Вычисляем значения P{S > S*}
     r = k - 1
     pSchi = 1/(2**(r/2)*math.gamma(r/2))
     pSchi1, err = scipy.integrate.quad(lambda xx: xx**(r/2 - 1)*math.exp(-xx/2), sChi, 1000)

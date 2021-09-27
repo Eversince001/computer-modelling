@@ -20,7 +20,7 @@ def a2(S):
 
 def AndersonDarling(x, n, m):
     content = []
-    alpha = 0.015
+    alpha = 0.05
     sortedX = sorted(x[:n:])
     S = 0
 
