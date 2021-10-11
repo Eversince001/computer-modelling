@@ -33,6 +33,8 @@ def X(x,n,k):
         sChi += ((nin[i] - p[i])**2)/p[i]
     sChi *= n
 
+    print(sChi)
+
     #Вычисляем значения P{S > S*}
     r = k - 1
     pSchi = 1/(2**(r/2)*math.gamma(r/2))
