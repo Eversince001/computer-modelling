@@ -11,7 +11,7 @@ seq40 = algorithms.builtInGenerator(40)
 print(seq40)
 workWithFiles.writeToFileSeq("firstfile", seq40)
 
-seq40 = algorithms.HypergeometricDistribution(40, inputData[0])
+SEQ40 = algorithms.HypergeometricDistribution(40, inputData[0], seq40)
 
 #Для стандартного алгоритма при N = 20, m = 10, n = 10
 

@@ -7,22 +7,28 @@ def builtInGenerator(n):
     seq = [0] * n
 
     for i in range(n):
-        seq[i] = random.random()
+        seq[i] = random.uniform(0, 1)
 
     return seq
 
 
 #Гипергеометрическое распределение 
-def HypergeometricDistribution(n, values):
-    seq = [0] * n
-
-    for k in range(values[2]):
+def HypergeometricDistribution(n, values, seqq):
+    seq = [0] * (values[2] + 1)
+    E = [0] * n
+    for i in range(n):
+        M = seqq[i]
+        for k in range(0, values[2] + 1):
             C1 = math.factorial(values[1])/(math.factorial(values[1] - k) *  math.factorial(k))
             C2 = math.factorial(values[0] - values[1])/(math.factorial(values[0] - values[1] - (values[2] - k)) *  math.factorial(values[2] - k))
             C3 = math.factorial(values[0])/(math.factorial(values[0] - values[2]) *  math.factorial(values[2]))
             seq[k] = (C1 * C2) / C3
+            if (M - seq[k] < 0):
+                E[i] = k
+                break
+            
 
-    return seq
+    return E
 
 # Стандартный алгоритм
 def standardAlgorithm(s, sP):
