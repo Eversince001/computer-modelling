@@ -1,8 +1,5 @@
 import algorithms
 import workWithFiles
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
 
 #inputData[i][0] - N inputData[i][1] - m inputData[i][2] - s
 inputData = workWithFiles.readFile("file.txt")
