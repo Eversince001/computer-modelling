@@ -1,0 +1,52 @@
+Standart algorithm, n = 40
+
+Statistics S = 4.075
+
+Statistics S crit = 54.572
+
+4.075 < 54.572 => chi-square hypothesis is not rejected
+
+Count of itterations: 163
+
+[2, 3, 2, 2, 4, 3, 4, 6, 3, 2, 3, 3, 3, 4, 2, 2, 4, 2, 4, 2, 3, 6, 2, 3, 3, 3, 3, 3, 3, 4, 4, 2, 4, 3, 3, 4, 3, 2, 2, 3]
+
+Standart algorithm, n = 100
+
+Statistics S = 3.94
+
+Statistics S crit = 123.225
+
+3.94 < 123.225 => chi-square hypothesis is not rejected
+
+Count of itterations: 395
+
+[2, 3, 2, 2, 4, 3, 4, 6, 3, 2, 3, 3, 3, 4, 2, 2, 4, 2, 4, 2, 3, 6, 2, 3, 3, 3, 3, 3, 3, 4, 4, 2, 4, 3, 3, 4, 3, 2, 2, 3, 3, 4, 3, 3, 3, 3, 2, 2, 3, 2, 3, 4, 2, 3, 3, 3, 2, 2, 2, 2, 3, 5, 3, 3, 3, 3, 4, 6, 3, 2, 3, 2, 2, 2, 2, 2, 3, 3, 2, 2, 3, 3, 3, 3, 3, 3, 3, 2, 2, 3, 2, 2, 3, 2, 2, 4, 4, 4, 4, 4]
+
+Nonstandart algorithm, n = 40
+
+Statistics S = 2.852
+
+Statistics S crit = 22.362
+
+2.852 < 22.362 => chi-square hypothesis is not rejected
+
+Count of itterations: 108
+
+Count of intervals K: 14
+
+[3, 4, 1, 3, 6, 4, 8, 10, 4, 2, 4, 5, 6, 7, 2, 3, 6, 3, 6, 3, 3, 10, 3, 5, 4, 5, 4, 5, 4, 7, 7, 3, 7, 5, 4, 7, 5, 2, 2, 4]
+
+Nonstandart algorithm, n = 100
+
+Statistics S = 3.447
+
+Statistics S crit = 22.362
+
+3.447 < 22.362 => chi-square hypothesis is not rejected
+
+Count of itterations: 269
+
+Count of intervals K: 14
+
+[3, 4, 1, 3, 6, 4, 8, 10, 4, 2, 4, 5, 6, 7, 2, 3, 6, 3, 6, 3, 3, 10, 3, 5, 4, 5, 4, 5, 4, 7, 7, 3, 7, 5, 4, 7, 5, 2, 2, 4, 4, 7, 5, 6, 4, 4, 2, 3, 4, 3, 5, 7, 2, 4, 5, 4, 3, 2, 3, 2, 4, 9, 4, 5, 4, 6, 7, 9, 4, 3, 4, 2, 3, 3, 3, 0, 4, 4, 1, 3, 4, 4, 6, 4, 4, 5, 5, 0, 3, 4, 3, 3, 4, 3, 3, 6, 6, 7, 7, 7]
+

@@ -1,18 +1,50 @@
 import algorithms
 import workWithFiles
+from scipy import stats
+import numpy as np
+import matplotlib.pyplot as plt
 
-
-#inputData[i][0] - N inputData[i][1] - m inputData[i][2] - n
+#inputData[i][0] - N inputData[i][1] - m inputData[i][2] - s
 inputData = workWithFiles.readFile("file.txt")
+n = inputData[0][0]
+m = inputData[0][1]
+s = inputData[0][2]
+a = []
+k = 0
 
-#Для стандартного алгоритма при N = 20, m = 10, n = 4
-print("Стандартный алгоритмЖ:\n")
-seq40 = algorithms.builtInGenerator(40)
-print(seq40)
-workWithFiles.writeToFileSeq("firstfile", seq40)
+print("Стандартный алгоритм:\n")
+N = 1000
+x = algorithms.generator(N)
 
-seq40 = algorithms.HypergeometricDistribution(40, inputData[0])
+T, x = algorithms.period(x)
 
-#Для стандартного алгоритма при N = 20, m = 10, n = 10
+if (T < 100):
+    print("Invalid data")
+    exit()
 
-#Для стандартного алгоритма при N = 30, m = 15, n = 10
+
+#задаем раномерную случайную величину
+x_40 = []
+for i in range(40):
+    x_40.append(x[i])
+
+x_100 = []
+for i in range(100):
+    x_100.append(x[i])
+
+#стандартная
+disc_40 = algorithms.discret(x_40, 40, s, n, m)
+print(disc_40)
+disc_100 = algorithms.discret(x_100, 100, s, n, m)
+print(disc_100)
+algorithms.hyperg(inputData[0])
+algorithms.hyperg(inputData[1])
+algorithms.hyperg(inputData[2])
+
+#нестандартная
+nestand_dic_40, K = algorithms.nestandart_alg(x_40, 40)
+algorithms.teor_puasson(40, 5, K)
+print(nestand_dic_40)
+nestand_dic_100, K = algorithms.nestandart_alg(x_100, 100)
+algorithms.teor_puasson(100, 5, K)
+print(nestand_dic_100)

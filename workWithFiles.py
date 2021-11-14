@@ -1,6 +1,4 @@
 
-
-#чтение входных данных из файла
 def readFile(file):
     f = open(file, "r")
 
