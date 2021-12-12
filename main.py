@@ -10,22 +10,20 @@ import tools
 
 args = tools.convert_param('args.txt')
 
-K = 5 * math.log10(args['N'])
-
 random.seed()
 
 start_time = datetime.now()
 
-seq = tools.generator(args['N'], args['b'])
+seq = tools.generator(args['N'])
 
 seqV = tools.inv_generator(args, seq)
 
 print('Время: ', datetime.now() - start_time)
 
-#tools.plot_pdf_and_cdf(tools.exp_pdf, tools.exp_cdf, args, args['b'])
+#tools.plot_pdf_and_cdf(tools.exp_pdf, tools.exp_cdf, args, args['b'], args['a'])
 
-#tools.plot_pdf_theoretical_and_empirical(tools.exp_pdf, args, seqV, args['b'])
+#tools.plot_pdf_theoretical_and_empirical(tools.exp_pdf, args, seqV, args['b'], args['a'])
 
-#tools.chi_test(seqV, int(args['N']), K, args['alpha'])
+#tools.chi2_test(seqV, tools.exp_cdf, args, [args['a'], args['b']], args['alpha'])
 
-tools.kolmogorov(seqV, int(args['N']), args)
+#tools.kolmogorov(seqV, int(args['N']), args)
