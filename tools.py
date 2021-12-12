@@ -1,8 +1,10 @@
-
+import math
+import scipy.integrate as integrate
+from scipy.special import gamma
+import scipy.stats as stats
 import random
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.stats
 
 def read_param(path):
     input = []
@@ -65,8 +67,8 @@ def generator(args):
 
     return answer
 
-def plot_pdf_and_cdf(pdf, cdf, args, xlims = 20, ylims={'pdf': 1, 'cdf': 1}):
-    x = np.arange(0, xlims + 0.001, 0.001)
+def plot_pdf_and_cdf(pdf, cdf, args, xlims = 6, ylims={'pdf': 1.5, 'cdf': 1}):
+    x = np.arange(1, xlims + 0.001, 0.001)
     print(x)
     y_pdf = [pdf(point, args) for point in x]
     y_cdf = [cdf(point, args) for point in x]
@@ -77,7 +79,7 @@ def plot_pdf_and_cdf(pdf, cdf, args, xlims = 20, ylims={'pdf': 1, 'cdf': 1}):
 
     for ax, y, title, kind in zip(sub.flatten(), [y_pdf, y_cdf], titles, ['pdf', 'cdf']):
         # Органичение значений осей координат
-        ax.set_xlim(0, xlims)
+        ax.set_xlim(1, xlims)
         ax.set_ylim(0, ylims[kind])
         # Разметка
         ax.grid()
@@ -109,19 +111,18 @@ def inv_generator(args, seq):
 
     return tmp
 
-
-def plot_pdf_theoretical_and_empirical(pdf, args, sample, xlims = 20, ylims = 1):
-    x = np.arange(0, xlims, 0.01)
+def plot_pdf_theoretical_and_empirical(pdf, args, sample, xlims = 6, ylims = 1.5):
+    x = np.arange(2.5, xlims, 0.01)
     # Теоретические значения
     y = [pdf(point, args) for point in x]
     # Эмпирические значения
-    weights, bin_edges = np.histogram(sample, range=(0, xlims), normed=True)
+    weights, bin_edges = np.histogram(sample, range=(2.5, xlims), normed=True)
     # Создание полотна
     fig = plt.figure(figsize=(7, 5))
     fig.suptitle('Логистическое распределение с параметрами μ и v = {0} {1}'.format(int(args['u']), args['v'], len(sample)))
     ax = fig.add_subplot(111)
     # Ограничение значений осей
-    ax.set_xlim(0, xlims)
+    ax.set_xlim(2.5, xlims)
     ax.set_ylim(0, ylims)
     # Cетка
     ax.grid()
@@ -134,73 +135,84 @@ def plot_pdf_theoretical_and_empirical(pdf, args, sample, xlims = 20, ylims = 1)
     plt.show()
 
 
-def chi_test(x, n, K, alpha):
+def chi2_test(seq, cdf, args, interval, alpha):
 
-    x_new = []
+    mu, sigma = args['u'], args['v']
+    a, b = interval
+    n = len(seq)
+    K = int(5*np.log10(n)) #число интервалов
 
-    for i in range(n):
-        x_new.append(x[i])
+    weights, bins_edges = np.histogram(seq, bins=K, range=(a, b))
+    weights = np.array(weights) / n
 
-    weights = np.ones_like(x_new) / len(x_new)
     S = 0
-    P = 1 / K
-
-    plt.ylabel('Частота')
-    plt.xlabel('Интервалы')
-    kint = plt.hist(x_new, int(K), weights=weights)
-
     for i in range(int(K)):
-        S = S + (kint[0][i] - P)**2 / P
+        P = cdf(bins_edges[i+1], args) - cdf(bins_edges[i], args)
+        S += (weights[i] - P)**2 / P
 
-    S = S * len(x)
+    S = S * n
 
-    print(f'Для {n}')
-    print(f'S={S}')
-    plt.show()
-    ur = scipy.stats.chi2.ppf(1-alpha, K - 1)
-    print(f'Уровень значимости = {ur}')
-    if ur > S:
-        print('Гипотеза по хи-квадрат не отклоняется')
-        return True #гипотеза по хи-квадрат не отклоняется
+    print('Критерий \u03c7\u00b2')
+    print('Число интервалов K: '+ str(K))
+    print('Значение статистики хи-квадрат: ' + str(np.round(S, 3)))
+   
 
+    p = integrate.quad(lambda x: pow(x, (K - 1) / 2 - 1) * np.exp(-x / 2), S, math.inf)
+    p /= pow(2, (K - 1) / 2) * gamma((K - 1) / 2)
+    
+    print('Достигнутый уровень значимости: ' + str(p[0]))
+    
+    #критическое значение статистики
+    S_a = stats.chi2.ppf(1-alpha, K-1)
+    
+    if p[0] < alpha:
+        print('Гипотеза о согласии отвергается\n')
+    else: 
+        if S > S_a:
+            print('Гипотеза о согласии отвергается\n')
+        else:
+            print('Гипотеза о согласии не отвергается\n')
+
+def Dplus(x, n, args):
+    maxD = 1/n-exp_cdf(x[0], args)
+
+    for i in range(1,n):
+        maxd = (i+1)/n - exp_cdf(x[i], args)
+        if(maxd > maxD):
+            maxD = maxd
+
+    return maxD
+
+def Dminus(x, n, args):
+    maxD = exp_cdf(x[0], args)
+
+    for i in range(1,n):
+        maxd = exp_cdf(x[i], args) - i/n
+        if(maxd > maxD):
+            maxD = maxd
+
+    return maxD
+
+def Smirnov(x, n, args):
+
+    xsort = sorted(x)
+    Dn = max([Dplus(xsort,n,args),Dminus(xsort,n,args)])
+    Stat = (6*n*Dn + 1)**2 / (9*n)
+    p = np.exp(-Stat/2)
+
+    print("Проверка гипотезы о согласии с помощью Смирнова:\n")
+    print("Статистика: " + str(round(Stat,4)))
+    print("Достигнутый уровень значимости: " + str(round(p,4)))
+    print("Задаваемый уровень значимости: "+str(args['alpha']))
+
+    result = ""
+
+    if p > args['alpha']:
+        result = "Гипотеза не отвергается"
     else:
-        print('Гипотеза по хи-квадрат отклоняется')
-        return False #гипотеза по хи-квадрат отклоняется
-
-F = lambda x, n: x/ (n - 1)
-
-def smirnov(x, n, args):
-
-    x_new = []
-    for i in range(n):
-        x_new.append(x[i])
-
-    x_new.sort()
-
-    D_minus = []
-    D_plus = []
-    i = 1
-
-    for x in x_new:
-        D_minus.append(F (x, n) - (i - 1) / n)
-        D_plus.append(i / n - F(x, n))
-        i = i + 1
-
-    D_p = max(D_plus)
-    D_m = max(D_minus)
-    D = max(D_p, D_m)
-    S = (6 * n * D + 1)**2 / (9 * n)
-    print(f'Для {n}')
-    print(f'S={S}')
-    P = np.exp(-S / 2)
-    print(f'P={P}')
-
-    if(P > args['alpha']):
-        print('Гипотеза Смирнова не отклоняется')
-        return True # нет оснований для отклонения
-    else:
-        print('Гипотеза Смирнова отклоняется')
-        return False # отклоняется
+        result = "Гипотеза отвергается"
+        
+    print(result)
 
 
 
